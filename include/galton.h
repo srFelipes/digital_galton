@@ -13,7 +13,7 @@ int resto_size=0;
 int random_size=0;
 unsigned int to_return;
 
-unsigned int galton_realizations[BOARD_SIZE];
+unsigned int galton_results[BOARD_SIZE+1];
 
 
 unsigned int efi_rand(void){
@@ -63,12 +63,12 @@ void prob_to_tray(int prob, int *tray){
     //this function returns an array with the positions of of the trayectory in the galton board
 
     tray[0]=0;
-    for (int i=1;i<BOARD_SIZE;i++){
+    for (int i=1;i<BOARD_SIZE+1;i++){
         tray[i]=tray[i-1]+i+((prob>>(i-1))&1);
     }
 }
 
-int galton_board_trays[BOARD_SIZE][BOARD_SIZE];
+int galton_board_trays[BOARD_SIZE][BOARD_SIZE+1];
 byte serialized_galton_board[SERIAL_BYTES];
 
 
@@ -90,25 +90,23 @@ void clear_board(void){
 }
 
 void copy_tray(int new_tray[],int column){
-    for (int i=0;i<BOARD_SIZE;i++){
+    for (int i=0;i<BOARD_SIZE+1;i++){
         galton_board_trays[column][i]=new_tray[i];
     }
 }
 
 int column=0;
 int new_prob;
-int new_tray[BOARD_SIZE];
+int new_tray[BOARD_SIZE+1];
 int counter=0;
 int byte_number;
 int bit_number;
+boolean first_values_fuse=false;
 
 
-
-int galton_onceV2(void){
+void galton_onceV2(void){
     clear_board();
-    if (counter==BOARD_SIZE){
-            counter=0;
-    }
+
     column=counter;
 
     //add a new trayectory array to galton_board_trays
@@ -131,5 +129,29 @@ int galton_onceV2(void){
         }
     }
     counter++;
-
+    if (counter==BOARD_SIZE){
+            counter=0;
+            if (!first_values_fuse){
+                first_values_fuse=true;
+            }
+    }
+    if (first_values_fuse){
+        to_return=(galton_board_trays[counter][BOARD_SIZE]-QTY_OF_PLACES);
+        galton_results[to_return]++;
+    }
+    
+    
 }
+void print_galton_trays(void){
+    for (int i=0;i<BOARD_SIZE;i++){
+        for (int j=0;j<BOARD_SIZE+1;j++){
+            Serial.print("galton_board_trays[");
+            Serial.print(i);
+            Serial.print("][");
+            Serial.print(j);
+            Serial.print("] = ");
+            Serial.println(galton_board_trays[i][j]);
+        }        
+    }
+}
+

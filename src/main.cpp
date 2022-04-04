@@ -2,6 +2,7 @@
 #include "spi2shiftRegister.h"
 #include "galton.h"
 
+
 void setup() {
   Serial.begin(115200);
   init_IO();
@@ -19,11 +20,14 @@ void setup() {
   init_tray_matrix();
   clear_board();
   int result;
-  for (int k=0;k<5000;k++){
+  Serial.print("the qty is ");
+  Serial.println(QTY_OF_PLACES);
+  for (int k=0;k<110;k++){
     
     init=micros();
-    result=galton_onceV2();
+    galton_onceV2();
     refreshGaltonBoard(serialized_galton_board);
+
     end=micros();
     Serial.print("iteration = ");
     Serial.print(k);
@@ -31,7 +35,16 @@ void setup() {
     Serial.print(end-init);
     Serial.print(" microseconds. | result = ");
     Serial.println(result);
-    delay(1000);
+
+    Serial.println("------------------------");
+    for (int i=0;i<BOARD_SIZE+1;i++){
+      Serial.print(galton_results[i]);
+      Serial.print(" | ");
+    }
+    Serial.println();
+    
+
+    delay(20);
   }
 
 
