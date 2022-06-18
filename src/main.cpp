@@ -27,7 +27,8 @@ void setup() {
     init=micros();
     galton_onceV2();
     refreshGaltonBoard(serialized_galton_board);
-
+    byte_the_result(0);
+    refreshColumns(single_byte_results);
     end=micros();
     Serial.print("iteration = ");
     Serial.print(k);

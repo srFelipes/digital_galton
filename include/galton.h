@@ -154,4 +154,10 @@ void print_galton_trays(void){
         }        
     }
 }
+byte single_byte_results[BOARD_SIZE +1];
 
+void byte_the_result(int divider){
+    for (int i = 0; i < BOARD_SIZE+1; i++){
+        single_byte_results[i] = 0xff & (galton_results[i] >> divider);
+    }
+}
