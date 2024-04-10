@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "spi2shiftRegister.h"
 #include "galton.h"
-
+#include "encoder_routines.h"
 
 void setup() {
   Serial.begin(115200);
@@ -22,7 +22,7 @@ void setup() {
   int result;
   Serial.print("the qty is ");
   Serial.println(QTY_OF_PLACES);
-  for (int k=0;k<110;k++){
+  for (int k=0;k<210;k++){
     
     init=micros();
     galton_onceV2();
@@ -45,7 +45,6 @@ void setup() {
     Serial.println();
     
 
-    delay(20);
   }
 
 
