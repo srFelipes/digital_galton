@@ -23,7 +23,6 @@ void setup() {
   Serial.print("the qty is ");
   Serial.println(QTY_OF_PLACES);
   for (int k=0;k<210;k++){
-    
     init=micros();
     galton_onceV2();
     refreshGaltonBoard(serialized_galton_board);
@@ -43,11 +42,7 @@ void setup() {
       Serial.print(" | ");
     }
     Serial.println();
-    
-
   }
-
-
 }
 
 void loop() {
