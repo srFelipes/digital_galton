@@ -124,7 +124,7 @@ void galton_onceV2(void){
     if (first_values_fuse){
         to_return = (galton_board_trays[counter][BOARD_SIZE]-QTY_OF_PLACES);
         galton_results[to_return]++;
-    }    
+    }
 }
 void print_galton_trays(void){
     for (int i=0; i<BOARD_SIZE; i++){
