@@ -3,11 +3,11 @@
 #include "test_utils.h"
 
 void setUp(void){
-
+test_utils_init();
 }
 
 void tearDown(void){
-
+  galton_deinit;
 }
 void testImport(){
   #ifdef GALTON
@@ -61,6 +61,15 @@ void testInitWith6(){
   TEST_ASSERT_EQUAL_CHAR_ARRAY(expected_board,board,3);
 }
 
+void testGalton_onceLoadsAballAtTheTop(){
+  galton_init(1,&all_0s);
+  galton_once();
+  TEST_ASSERT_EQUAL_INT16(1,all_0s_calls);
+  char expected_board[] = {1};
+  TEST_ASSERT_EQUAL_UINT8_ARRAY(expected_board,board,1); 
+
+}
+
 int main( int argc, char **argv){
 
     UNITY_BEGIN();
@@ -69,5 +78,6 @@ int main( int argc, char **argv){
     RUN_TEST(testInitWith1);
     RUN_TEST(testInitWith3);
     RUN_TEST(testInitWith6);
+    RUN_TEST(testGalton_onceLoadsAballAtTheTop);
     UNITY_END();
   }

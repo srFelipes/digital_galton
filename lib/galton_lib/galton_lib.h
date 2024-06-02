@@ -12,7 +12,11 @@
 #ifndef GALTON
 #define GALTON
 
-void galton_init(unsigned int number_of_levels, void *rand_func);
+typedef void (*RandomFunction_t) (char output_array[], unsigned int n_of_bits);
+
+void galton_init(unsigned int number_of_levels, RandomFunction_t rand_func);
+
+void galton_deinit();
 
 /**
  * @brief pointer to a "global" variable, this is the amount
@@ -72,8 +76,8 @@ void efi_rand(char output_array[], unsigned int n_of_bits);
  */
 void clear_board();
 
-
-
 void galton_once();
+
+
 
 #endif
