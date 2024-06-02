@@ -9,7 +9,8 @@
  * 
  */
 
-
+#ifndef GALTON
+#define GALTON
 
 void galton_init(unsigned int board_levels);
 
@@ -18,14 +19,14 @@ void galton_init(unsigned int board_levels);
  * of steps the balls go before falling in a container
  * 
  */
-unsigned int &board_levels;
+extern unsigned int *board_levels;
 
 /**
  * @brief The number of positions inside the board, 
  * a ball can be in any of this positions
  * 
  */
-unsigned int &board_size;
+extern unsigned int *board_size;
 
 /**
  * @brief pointer to the board, a char array of board_size bits
@@ -41,13 +42,13 @@ unsigned int &board_size;
  *              6  7   8   9
  * 
  */
-char &board;
+extern char *board;
 
 /**
  * @brief where the balls are collected, its size is board_levels+1
  * 
  */
-unsigned long &containers;
+extern unsigned long *containers;
 
 /**
  * @brief copies board_size bits into output_array containing random bits
@@ -65,3 +66,4 @@ void clear_board();
 
 void galton_once();
 
+#endif
