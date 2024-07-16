@@ -78,6 +78,14 @@ void clear_board();
 
 void galton_once();
 
+// /**
+//  * @brief array whose index is the level and its value is the position of where a ball is
+//  * 
+//  * @note 
+//  * 
+//  */
+// extern unsigned int* active_positions;
 
+// #define NO_BALL_IN_POS 0xffff //assuming this will run in an arduino, max uint will signal that there is no ball in pos
 
 #endif

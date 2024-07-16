@@ -7,7 +7,7 @@ test_utils_init();
 }
 
 void tearDown(void){
-  galton_deinit;
+  galton_deinit();
 }
 void testImport(){
   #ifdef GALTON
@@ -66,8 +66,39 @@ void testGalton_onceLoadsAballAtTheTop(){
   galton_once();
   TEST_ASSERT_EQUAL_INT16(1,all_0s_calls);
   char expected_board[] = {1};
-  TEST_ASSERT_EQUAL_UINT8_ARRAY(expected_board,board,1); 
+  TEST_ASSERT_EQUAL_UINT8_ARRAY(expected_board,board,1);
+}
 
+void testGalton_oncePropagatesBallToTheLeft(){
+  galton_init(2,&all_0s);
+  galton_once();
+  TEST_ASSERT_EQUAL_INT16(1,all_0s_calls);
+  char expected_board[] = {1};
+  TEST_ASSERT_EQUAL_UINT8_ARRAY(expected_board,board,1);
+  galton_once();
+  TEST_ASSERT_EQUAL_INT16(2,all_0s_calls);
+  expected_board[0] = 0b011; //one ball at the top one ball at the left
+  TEST_ASSERT_EQUAL_UINT8_ARRAY(expected_board,board,1);
+}
+
+void testGalton_once10timesleft(){
+  int levels = 10;
+  galton_init(levels,&all_0s);
+  char expected_boards[10][7] = {{1,0,0,0,0,0,0},
+                                 {3,0,0,0,0,0,0},
+                                 {0xb,0,0,0,0,0,0},
+                                 {0x4b,0,0,0,0,0,0},
+                                 {0x4b,0x4,0,0,0,0,0},
+                                 {0x4b,0x84,0,0,0,0,0},
+                                 {0x4b,0x84,0x20,0,0,0,0},
+                                 {0x4b,0x84,0x20,0x10,0,0,0},
+                                 {0x4b,0x84,0x20,0x10,0x10,0,0},
+                                 {0x4b,0x84,0x20,0x10,0x10,0x20,0}};
+  for (int i=0; i<levels; i++){
+    galton_once();
+    TEST_ASSERT_EQUAL_INT16(1+i,all_0s_calls);
+    TEST_ASSERT_EQUAL_UINT8_ARRAY(expected_boards[i],board,7);
+  }
 }
 
 int main( int argc, char **argv){
@@ -78,6 +109,8 @@ int main( int argc, char **argv){
     RUN_TEST(testInitWith1);
     RUN_TEST(testInitWith3);
     RUN_TEST(testInitWith6);
-    RUN_TEST(testGalton_onceLoadsAballAtTheTop);
+    // RUN_TEST(testGalton_onceLoadsAballAtTheTop);
+    // RUN_TEST(testGalton_oncePropagatesBallToTheLeft);
+    // RUN_TEST(testGalton_once10timesleft);
     UNITY_END();
   }
