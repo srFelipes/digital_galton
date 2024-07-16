@@ -17,7 +17,6 @@ char internal_board[1];
 
 void galton_init(unsigned int number_of_levels, RandomFunction_t rand_func)
 {
-
     givenRandom = rand_func;
     board_number_of_positions = (number_of_levels * (number_of_levels + 1)) >> 1;
     board_size = number_of_positions >> 3;
@@ -31,7 +30,7 @@ void galton_init(unsigned int number_of_levels, RandomFunction_t rand_func)
     for (int i = 0; i < board_size; i++)
     {
         board[i] = 0;
-    }    
+    }
 }
 
 void galton_deinit()
