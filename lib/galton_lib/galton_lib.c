@@ -3,6 +3,9 @@
 
 #include <stdbool.h>
 
+#include <stdio.h>
+
+
 static RandomFunction_t givenRandom = NULL;
 
 unsigned int board_levels;
@@ -38,34 +41,30 @@ void galton_deinit()
     free(board);
 }
 
+bool isBallAtByteAndIndex(int index, int current_byte){
+    return ((board[current_byte]>>(index&7))&1);
+}
+
 void galton_once()
 {
     char random_seed[1];
-    if (board[0] == 0)
+    random_seed[0] = 0;
+    givenRandom(random_seed,1);
+    for (int current_level = board_levels-1; current_level > 0; current_level--)
     {
-        board[0] = 1;
+        int min_pos = ((current_level-1)*current_level) >> 1;
+        for (int pos_in_the_level = 0; pos_in_the_level < current_level ; pos_in_the_level++ )
+        {   
+            int pos = min_pos+pos_in_the_level;
+            int index = pos & 7; //the LSB of pos
+            int current_byte = pos >> 3; // pos divided by 8
+            if (isBallAtByteAndIndex(index,current_byte)){
+                int new_pos = pos + current_level;
+                index = new_pos & 7; //the LSB of pos
+                current_byte = new_pos >> 3; // pos divided by 8
+                board[current_byte] |= 1<<index;
+            }
+        }
     }
-    else
-    {
-        board[0] = 0b11;
-    }
-    // random_seed[0] = 0;
-    // givenRandom(random_seed,1);
-    // bool ball;
-    // int current_byte;
-    // int current_bit;
-    // int current_level = board_levels;
-    // for (int current_level=board_levels-1; current_level>=0; current_level--){
-    //     for (int current_pos=current_level+1; current_pos>=0; current_level--){
-    //         current_bit =
-    //         ball = (board[current_byte]>>current_bit)&1;
-    //     }
-    // }
-    // for (int i = number_of_positions-1; i>=0; i--){
-    //     current_byte = (i>>3);
-    //     current_bit = i&0xff;
-    //     ball = (board[current_byte]>>current_bit)&1;
-    //     if (ball){
-    //     }
-    // }
+    board[0] |= 1;
 }

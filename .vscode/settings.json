@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "galton_lib.h": "c",
-        "unity_internals.h": "c"
+        "unity_internals.h": "c",
+        "cstring": "c"
     }
 }

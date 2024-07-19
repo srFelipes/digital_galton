@@ -1,6 +1,8 @@
 #include <unity.h>
 #include "galton_lib.h"
 #include "test_utils.h"
+#include <string.h>
+#include <stdio.h>
 
 void setUp(void){
 test_utils_init();
@@ -94,10 +96,15 @@ void testGalton_once10timesleft(){
                                  {0x4b,0x84,0x20,0x10,0,0,0},
                                  {0x4b,0x84,0x20,0x10,0x10,0,0},
                                  {0x4b,0x84,0x20,0x10,0x10,0x20,0}};
+  char expected_board[7];
+  char format[] = "failed at %i";
+  char buffer[100] = {0};
   for (int i=0; i<levels; i++){
     galton_once();
+    memcpy(expected_board,expected_boards[i],7);
     TEST_ASSERT_EQUAL_INT16(1+i,all_0s_calls);
-    TEST_ASSERT_EQUAL_UINT8_ARRAY(expected_boards[i],board,7);
+    sprintf(buffer,format,i);
+    TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(expected_board,board,7,buffer);
   }
 }
 
@@ -109,8 +116,8 @@ int main( int argc, char **argv){
     RUN_TEST(testInitWith1);
     RUN_TEST(testInitWith3);
     RUN_TEST(testInitWith6);
-    // RUN_TEST(testGalton_onceLoadsAballAtTheTop);
-    // RUN_TEST(testGalton_oncePropagatesBallToTheLeft);
-    // RUN_TEST(testGalton_once10timesleft);
+    RUN_TEST(testGalton_onceLoadsAballAtTheTop);
+    RUN_TEST(testGalton_oncePropagatesBallToTheLeft);
+    RUN_TEST(testGalton_once10timesleft);
     UNITY_END();
   }
