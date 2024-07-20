@@ -133,6 +133,32 @@ void testGalton_once10timesright(){
   }
 }
 
+void testGalton_once10times_left_right(){
+  int levels = 10;
+  galton_init(levels,&all_10101010);
+  char expected_boards[10][7] = { {0x1,  0x0,  0x0, 0x0, 0x0, 0x0, 0x0,},
+                                  {0x5,  0x0,  0x0, 0x0, 0x0, 0x0, 0x0,},
+                                  {0x15, 0x0,  0x0, 0x0, 0x0, 0x0, 0x0,},
+                                  {0x15, 0x1,  0x0, 0x0, 0x0, 0x0, 0x0,},
+                                  {0x15, 0x11, 0x0, 0x0, 0x0, 0x0, 0x0,},
+                                  {0x15, 0x11, 0x4, 0x0, 0x0, 0x0, 0x0,},
+                                  {0x15, 0x11, 0x4, 0x1, 0x0, 0x0, 0x0,},
+                                  {0x15, 0x11, 0x4, 0x1, 0x1, 0x0, 0x0,},
+                                  {0x15, 0x11, 0x4, 0x1, 0x1, 0x1, 0x0,},
+                                  {0x15, 0x11, 0x4, 0x1, 0x1, 0x1, 0x4,},};
+  char expected_board[7];
+  char format[] = "failed at %i";
+  char buffer[100] = {0};
+  for (int i=0; i<levels; i++){
+    galton_once();
+    memcpy(expected_board,expected_boards[i],7);
+    TEST_ASSERT_EQUAL_INT16(1+i,all_1s_calls);
+    sprintf(buffer,format,i);
+    TEST_ASSERT_EQUAL_UINT8_ARRAY_MESSAGE(expected_board,board,7,buffer);
+  }
+}
+
+
 int main( int argc, char **argv){
 
     UNITY_BEGIN();
@@ -145,5 +171,6 @@ int main( int argc, char **argv){
     RUN_TEST(testGalton_oncePropagatesBallToTheLeft);
     RUN_TEST(testGalton_once10timesleft);
     RUN_TEST(testGalton_once10timesright);
+    RUN_TEST(testGalton_once10times_left_right);
     UNITY_END();
   }

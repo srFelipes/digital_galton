@@ -27,17 +27,33 @@ def all_to_the_left(levels):
         this_pos = int((i+1)*(i+2)/2-1)
         this_val = 1<<this_pos
         result += this_val
-        print(hex(result))
+        print_as_c_array(levels,(result))
+    return result
 
+def left_right(levels):
+    result = 1
+    last_pos = 0
+    for i in range(1,levels):
+        if (i&1):
+            this_pos = last_pos + i +1
+        else:
+            this_pos =last_pos + i
+        last_pos = this_pos
+        this_val = 1<<this_pos
+        result += this_val
+        print_as_c_array(levels,(result))
+    return result
 
+def print_as_c_array(levels,board):
+    number_of_bytes = (((levels+1)*(levels+2))>>4)-1
+    output = "{"
+    for i in range(number_of_bytes):
+        output = output + hex(((board)>>(i*8))&0xff)+", "
+    output = output[:-1] + "},"
+    print(output)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Print a Galton board.')
     parser.add_argument('levels', type=int, help='Number of levels in the Galton board')
-    parser.add_argument('trash', type=str, help='Character to be descarted')
-    parser.add_argument('board', type=str, help='Character to use for the board positions')
     args = parser.parse_args()
-    print(args.board)
-    for char in (args.board):
-        print(char)
-    print_galton(args.levels, args.board)
+    print_galton(args.levels,left_right(10))
