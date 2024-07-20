@@ -21,6 +21,15 @@ def print_galton(levels, board = 0):
             counter +=1
     print(output)
 
+def all_to_the_left(levels):
+    result = 0
+    for i in range(levels):
+        this_pos = int((i+1)*(i+2)/2-1)
+        this_val = 1<<this_pos
+        result += this_val
+        print(hex(result))
+
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Print a Galton board.')
