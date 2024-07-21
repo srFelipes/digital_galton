@@ -44,6 +44,22 @@ def left_right(levels):
         print_as_c_array(levels,(result))
     return result
 
+def right_left(levels):
+    result = 1
+    last_pos = 0
+    print_as_c_array(levels,(result))
+    for i in range(1,levels):
+        if (i&1):
+            this_pos = last_pos + i
+        else:
+            this_pos =last_pos + i+1
+        last_pos = this_pos
+        this_val = 1<<this_pos
+        result += this_val
+        print_as_c_array(levels,(result))
+    return result
+
+
 def print_as_c_array(levels,board):
     number_of_bytes = (((levels+1)*(levels+2))>>4)-1
     output = "{"
@@ -56,4 +72,4 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Print a Galton board.')
     parser.add_argument('levels', type=int, help='Number of levels in the Galton board')
     args = parser.parse_args()
-    print_galton(args.levels,left_right(10))
+    print_galton(args.levels,right_left(10))

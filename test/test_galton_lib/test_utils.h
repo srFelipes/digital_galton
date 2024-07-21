@@ -28,3 +28,11 @@ void all_10101010(char output_array[], unsigned int n_of_bits){
     }
     all_1s_calls++;
 }
+
+void all_55(char output_array[], unsigned int n_of_bits){
+    int n = (n_of_bits>>3)+1;
+    for (int i = 0; i<n; i++){
+        output_array[i] = 0x55;
+    }
+    all_1s_calls++;
+}
