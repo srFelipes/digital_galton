@@ -19,8 +19,10 @@ void testImport(){
   #endif
 }
 
+galton_algorithm current_algo = BY_POS;
+
 void testInitWith0(){
-  galton_init(0,&all_0s);
+  galton_init(0, &all_0s, current_algo);
   TEST_ASSERT_EQUAL_UINT(0,board_levels);
   TEST_ASSERT_EQUAL_UINT(1,board_size);
   TEST_ASSERT_EQUAL_UINT(0,board_number_of_positions);
@@ -29,7 +31,7 @@ void testInitWith0(){
 }
 
 void testInitWith1(){
-  galton_init(1,&all_0s);
+  galton_init(1, &all_0s, current_algo);
   TEST_ASSERT_EQUAL_UINT(1,board_levels);
   TEST_ASSERT_EQUAL_UINT(1,board_size);
   TEST_ASSERT_EQUAL_UINT(1,board_number_of_positions);
@@ -38,7 +40,7 @@ void testInitWith1(){
 }
 
 void testInitWith3(){
-  galton_init(3,&all_0s);
+  galton_init(3, &all_0s, current_algo);
   TEST_ASSERT_EQUAL_UINT(3,board_levels);
   TEST_ASSERT_EQUAL_UINT(1,board_size);
   TEST_ASSERT_EQUAL_UINT(6,board_number_of_positions);
@@ -54,7 +56,7 @@ void testInitWith3(){
  * outside its size and generating unexpected behaviour  
  */
 void testInitWith6(){
-  galton_init(6,&all_0s);
+  galton_init(6, &all_0s, current_algo);
   TEST_ASSERT_EQUAL_UINT(6,board_levels);
   TEST_ASSERT_EQUAL_UINT(21,board_number_of_positions);
   TEST_ASSERT_EQUAL_UINT(3,board_size);
@@ -64,7 +66,7 @@ void testInitWith6(){
 }
 
 void testGalton_onceLoadsAballAtTheTop(){
-  galton_init(1,&all_0s);
+  galton_init(1, &all_0s, current_algo);
   galton_once();
   TEST_ASSERT_EQUAL_INT16(1,all_0s_calls);
   char expected_board[] = {1};
@@ -72,7 +74,7 @@ void testGalton_onceLoadsAballAtTheTop(){
 }
 
 void testGalton_oncePropagatesBallToTheLeft(){
-  galton_init(2,&all_0s);
+  galton_init(2, &all_0s, current_algo);
   galton_once();
   TEST_ASSERT_EQUAL_INT16(1,all_0s_calls);
   char expected_board[] = {1};
@@ -85,7 +87,7 @@ void testGalton_oncePropagatesBallToTheLeft(){
 
 void testGalton_once10timesleft(){
   int levels = 10;
-  galton_init(levels,&all_0s);
+  galton_init(levels, &all_0s, current_algo);
   char expected_boards[10][7] = {{1,0,0,0,0,0,0},
                                  {3,0,0,0,0,0,0},
                                  {0xb,0,0,0,0,0,0},
@@ -110,7 +112,7 @@ void testGalton_once10timesleft(){
 
 void testGalton_once10timesright(){
   int levels = 10;
-  galton_init(levels,&all_1s);
+  galton_init(levels, &all_1s, current_algo);
   char expected_boards[10][7] = {{1,0,0,0,0,0,0},
                                  {5,0,0,0,0,0,0},
                                  {0x25,0,0,0,0,0,0},
@@ -135,7 +137,7 @@ void testGalton_once10timesright(){
 
 void testGalton_once10times_left_right(){
   int levels = 10;
-  galton_init(levels,&all_10101010);
+  galton_init(levels, &all_10101010, current_algo);
   char expected_boards[10][7] = { {0x1,  0x0,  0x0, 0x0, 0x0, 0x0, 0x0,},
                                   {0x5,  0x0,  0x0, 0x0, 0x0, 0x0, 0x0,},
                                   {0x15, 0x0,  0x0, 0x0, 0x0, 0x0, 0x0,},
@@ -160,7 +162,7 @@ void testGalton_once10times_left_right(){
 
 void testGalton_once10times_right_left(){
   int levels = 10;
-  galton_init(levels,&all_55);
+  galton_init(levels, &all_55, current_algo);
   char expected_boards[10][7] = {{0x1,  0x0,  0x0, 0x0,  0x0, 0x0, 0x0,},
                                  {0x3,  0x0,  0x0, 0x0,  0x0, 0x0, 0x0,},
                                  {0x13, 0x0,  0x0, 0x0,  0x0, 0x0, 0x0,},
@@ -185,7 +187,7 @@ void testGalton_once10times_right_left(){
 
 void testGalton_1ballAtLeftContainer(){
   int levels = 1;
-  galton_init(levels,&all_0s);
+  galton_init(levels, &all_0s, current_algo);
   for (int i=0; i<levels+1; i++){
     galton_once();
     TEST_ASSERT_EQUAL_INT16(1+i,all_0s_calls);
@@ -195,7 +197,7 @@ void testGalton_1ballAtLeftContainer(){
 
 void testGalton_2ballAtLeftContainer(){
   int levels = 1;
-  galton_init(levels,&all_0s);
+  galton_init(levels, &all_0s, current_algo);
   for (int i=0; i<levels+2; i++){
     galton_once();
     TEST_ASSERT_EQUAL_INT16(1+i,all_0s_calls);
@@ -205,7 +207,7 @@ void testGalton_2ballAtLeftContainer(){
 
 void testGalton_1ballAtRightContainer(){
   int levels = 1;
-  galton_init(levels,&all_1s);
+  galton_init(levels, &all_1s, current_algo);
   for (int i=0; i<levels+1; i++){
     galton_once();
     TEST_ASSERT_EQUAL_INT16(1+i,all_1s_calls);
@@ -215,7 +217,7 @@ void testGalton_1ballAtRightContainer(){
 
 void testGalton_2ballAtRightContainer(){
   int levels = 1;
-  galton_init(levels,&all_1s);
+  galton_init(levels, &all_1s, current_algo);
   for (int i=0; i<levels+2; i++){
     galton_once();
     TEST_ASSERT_EQUAL_INT16(1+i,all_1s_calls);
@@ -225,7 +227,7 @@ void testGalton_2ballAtRightContainer(){
 
 void testGalton_5ballAtLeftContainer_3_levels(){
   int levels = 3;
-  galton_init(levels,&all_0s);
+  galton_init(levels, &all_0s, current_algo);
   for (int i=0; i<levels+5; i++){
     galton_once();
     TEST_ASSERT_EQUAL_INT16(1+i,all_0s_calls);
@@ -235,7 +237,7 @@ void testGalton_5ballAtLeftContainer_3_levels(){
 
 void testGalton_5ballAtRightContainer_3_levels(){
   int levels = 3;
-  galton_init(levels,&all_1s);
+  galton_init(levels, &all_1s, current_algo);
   for (int i=0; i<levels+5; i++){
     galton_once();
     TEST_ASSERT_EQUAL_INT16(1+i,all_1s_calls);
@@ -243,25 +245,29 @@ void testGalton_5ballAtRightContainer_3_levels(){
   TEST_ASSERT_EQUAL_INT(5,containers[levels]);
 }
 
+void run_the_tests(){
+  RUN_TEST(testImport);
+  RUN_TEST(testInitWith0);
+  RUN_TEST(testInitWith1);
+  RUN_TEST(testInitWith3);
+  RUN_TEST(testInitWith6);
+  RUN_TEST(testGalton_onceLoadsAballAtTheTop);
+  RUN_TEST(testGalton_oncePropagatesBallToTheLeft);
+  RUN_TEST(testGalton_once10timesleft);
+  RUN_TEST(testGalton_once10timesright);
+  RUN_TEST(testGalton_once10times_left_right);
+  RUN_TEST(testGalton_once10times_right_left);
+  RUN_TEST(testGalton_1ballAtLeftContainer);
+  RUN_TEST(testGalton_2ballAtLeftContainer);
+  RUN_TEST(testGalton_1ballAtRightContainer);
+  RUN_TEST(testGalton_2ballAtRightContainer);
+  RUN_TEST(testGalton_5ballAtLeftContainer_3_levels);
+  RUN_TEST(testGalton_5ballAtRightContainer_3_levels);
+}
+
 int main( int argc, char **argv){
 
-    UNITY_BEGIN();
-    RUN_TEST(testImport);
-    RUN_TEST(testInitWith0);
-    RUN_TEST(testInitWith1);
-    RUN_TEST(testInitWith3);
-    RUN_TEST(testInitWith6);
-    RUN_TEST(testGalton_onceLoadsAballAtTheTop);
-    RUN_TEST(testGalton_oncePropagatesBallToTheLeft);
-    RUN_TEST(testGalton_once10timesleft);
-    RUN_TEST(testGalton_once10timesright);
-    RUN_TEST(testGalton_once10times_left_right);
-    RUN_TEST(testGalton_once10times_right_left);
-    RUN_TEST(testGalton_1ballAtLeftContainer);
-    RUN_TEST(testGalton_2ballAtLeftContainer);
-    RUN_TEST(testGalton_1ballAtRightContainer);
-    RUN_TEST(testGalton_2ballAtRightContainer);
-    RUN_TEST(testGalton_5ballAtLeftContainer_3_levels);
-    RUN_TEST(testGalton_5ballAtRightContainer_3_levels);
-    UNITY_END();
+  UNITY_BEGIN();
+  run_the_tests();
+  UNITY_END();
   }

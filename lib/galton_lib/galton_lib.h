@@ -14,7 +14,12 @@
 
 typedef void (*RandomFunction_t) (char output_array[], unsigned int n_of_bits);
 
-void galton_init(unsigned int number_of_levels, RandomFunction_t rand_func);
+typedef enum{
+    BY_POS,
+    BY_TRAJ    
+} galton_algorithm;
+
+void galton_init(unsigned int number_of_levels, RandomFunction_t rand_func, galton_algorithm algorithm);
 
 void galton_deinit();
 
@@ -76,7 +81,11 @@ void efi_rand(char output_array[], unsigned int n_of_bits);
  */
 void clear_board();
 
-void galton_once();
+extern void (*galton_once)();
+
+void galton_by_pos();
+void galton_by_traj();
+
 
 // /**
 //  * @brief array whose index is the level and its value is the position of where a ball is

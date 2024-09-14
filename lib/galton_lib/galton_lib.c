@@ -19,7 +19,9 @@ int size;
 unsigned int number_of_positions;
 char internal_board[1];
 
-void galton_init(unsigned int number_of_levels, RandomFunction_t rand_func)
+void (*galton_once)();
+
+void galton_init(unsigned int number_of_levels, RandomFunction_t rand_func, galton_algorithm algorithm)
 {
     givenRandom = rand_func;
     board_number_of_positions = (number_of_levels * (number_of_levels + 1)) >> 1;
@@ -35,6 +37,12 @@ void galton_init(unsigned int number_of_levels, RandomFunction_t rand_func)
     for (int i = 0; i < board_size; i++)
     {
         board[i] = 0;
+    }
+    if (algorithm == BY_POS){
+        galton_once = galton_by_pos;
+    }
+    else if (algorithm == BY_TRAJ){
+
     }
 }
 
@@ -53,7 +61,7 @@ int min_pos_f(int current_level){
     return ((current_level-1)*current_level) >> 1;
 }
 
-void galton_once()
+void galton_by_pos()
 {   
     char random_run[3]; /*array to keep random bits |0: left | 1: right|*/
     givenRandom(random_run,10);
@@ -88,4 +96,8 @@ void galton_once()
         }
     }
     board[0] |= 1;
+}
+
+void galton_by_traj(){
+
 }
