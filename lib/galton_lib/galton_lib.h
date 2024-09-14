@@ -60,7 +60,7 @@ extern int board_size;
  * @brief where the balls are collected, its size is board_levels+1
  * 
  */
-extern unsigned long containers[];
+extern unsigned long* containers;
 
 /**
  * @brief copies board_size bits into output_array containing random bits

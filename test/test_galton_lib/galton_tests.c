@@ -183,6 +183,66 @@ void testGalton_once10times_right_left(){
   }
 }
 
+void testGalton_1ballAtLeftContainer(){
+  int levels = 1;
+  galton_init(levels,&all_0s);
+  for (int i=0; i<levels+1; i++){
+    galton_once();
+    TEST_ASSERT_EQUAL_INT16(1+i,all_0s_calls);
+  }
+  TEST_ASSERT_EQUAL_INT(1,containers[0]);
+}
+
+void testGalton_2ballAtLeftContainer(){
+  int levels = 1;
+  galton_init(levels,&all_0s);
+  for (int i=0; i<levels+2; i++){
+    galton_once();
+    TEST_ASSERT_EQUAL_INT16(1+i,all_0s_calls);
+  }
+  TEST_ASSERT_EQUAL_INT(2,containers[0]);
+}
+
+void testGalton_1ballAtRightContainer(){
+  int levels = 1;
+  galton_init(levels,&all_1s);
+  for (int i=0; i<levels+1; i++){
+    galton_once();
+    TEST_ASSERT_EQUAL_INT16(1+i,all_1s_calls);
+  }
+  TEST_ASSERT_EQUAL_INT(1,containers[1]);
+}
+
+void testGalton_2ballAtRightContainer(){
+  int levels = 1;
+  galton_init(levels,&all_1s);
+  for (int i=0; i<levels+2; i++){
+    galton_once();
+    TEST_ASSERT_EQUAL_INT16(1+i,all_1s_calls);
+  }
+  TEST_ASSERT_EQUAL_INT(2,containers[1]);
+}
+
+void testGalton_5ballAtLeftContainer_3_levels(){
+  int levels = 3;
+  galton_init(levels,&all_0s);
+  for (int i=0; i<levels+5; i++){
+    galton_once();
+    TEST_ASSERT_EQUAL_INT16(1+i,all_0s_calls);
+  }
+  TEST_ASSERT_EQUAL_INT(5,containers[0]);
+}
+
+void testGalton_5ballAtRightContainer_3_levels(){
+  int levels = 3;
+  galton_init(levels,&all_1s);
+  for (int i=0; i<levels+5; i++){
+    galton_once();
+    TEST_ASSERT_EQUAL_INT16(1+i,all_1s_calls);
+  }
+  TEST_ASSERT_EQUAL_INT(5,containers[levels]);
+}
+
 int main( int argc, char **argv){
 
     UNITY_BEGIN();
@@ -197,5 +257,11 @@ int main( int argc, char **argv){
     RUN_TEST(testGalton_once10timesright);
     RUN_TEST(testGalton_once10times_left_right);
     RUN_TEST(testGalton_once10times_right_left);
+    RUN_TEST(testGalton_1ballAtLeftContainer);
+    RUN_TEST(testGalton_2ballAtLeftContainer);
+    RUN_TEST(testGalton_1ballAtRightContainer);
+    RUN_TEST(testGalton_2ballAtRightContainer);
+    RUN_TEST(testGalton_5ballAtLeftContainer_3_levels);
+    RUN_TEST(testGalton_5ballAtRightContainer_3_levels);
     UNITY_END();
   }
