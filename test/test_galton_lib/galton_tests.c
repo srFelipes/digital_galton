@@ -246,7 +246,6 @@ void testGalton_5ballAtRightContainer_3_levels(){
 }
 
 void run_the_tests(){
-  RUN_TEST(testImport);
   RUN_TEST(testInitWith0);
   RUN_TEST(testInitWith1);
   RUN_TEST(testInitWith3);
@@ -268,6 +267,10 @@ void run_the_tests(){
 int main( int argc, char **argv){
 
   UNITY_BEGIN();
+  RUN_TEST(testImport);
+  current_algo =BY_POS;
+  run_the_tests();
+  current_algo =BY_TRAJ;
   run_the_tests();
   UNITY_END();
   }
