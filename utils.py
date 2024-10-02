@@ -1,4 +1,6 @@
 import argparse
+import math
+
 def print_galton(levels, board = 0):
     output = ""
     position = int(levels*(levels+1)/2)
@@ -61,10 +63,11 @@ def right_left(levels):
 
 
 def print_as_c_array(levels,board):
-    number_of_bytes = (((levels+1)*(levels+2))>>4)-1
+    number_of_bytes = math.ceil(((levels+1)*(levels))/16)
     output = "{"
     for i in range(number_of_bytes):
-        output = output + hex(((board)>>(i*8))&0xff)+", "
+        val = ((board)>>(i*8))&0xff
+        output = output + f"0x{val:02x}" +", "
     output = output[:-1] + "},"
     print(output)
 
@@ -72,4 +75,4 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Print a Galton board.')
     parser.add_argument('levels', type=int, help='Number of levels in the Galton board')
     args = parser.parse_args()
-    print_galton(args.levels,right_left(10))
+    print_galton(args.levels,all_to_the_left(args.levels))
