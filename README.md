@@ -1,7 +1,7 @@
 # digital_galton
 ![testing badge](https://github.com/srFelipes/digital_galton/actions/workflows/testing.yml/badge.svg)
 
-Firmware of the digital galton project. This project is a pcb controled by an arduino nano that runs 2 led matrices by writing to its SPI bus that is connected to 2 different array of shift registers whose output drives the leds directly. One of the matrices is the galton table and its represented as a tringle of leds with one more led each level. The idea behind it is to simulate the trajectory that each balls floows while falling into the galton board assuming that when passing to the level below it has 2 leds that it can _fall_ to, one to the left and one to the right each with 50% probability. The second led matrix is the container array where the balls land, each container has 8 leds and at the moment it is displaying the binary representation of the balls it contains. A demo can be seen bellow illustrating the concept and a normal distribution can be seen in the containers, it is a little difficult since the containers are represented in their binary form
+Firmware of the digital galton project. This project is a pcb controled by an arduino nano that runs 2 led matrices by writing to its SPI bus that is connected to 2 different array of shift registers whose output drives the leds directly. One of the matrices is the galton table and its represented as a tringle of leds with one more led each level. The idea behind it is to simulate the trajectory that each balls follows while falling into the galton board assuming that when passing to the level below it has 2 leds that it can _fall_ to, one to the left and one to the right each with 50% probability. The second led matrix is the container array where the balls land, each container has 8 leds and at the moment it is displaying the binary representation of the balls it contains. A demo can be seen bellow illustrating the concept and a normal distribution can be seen in the containers, it is a little difficult since the containers are represented in their binary form
 
 
 https://github.com/srFelipes/digital_galton/assets/37315690/cf0d13b2-bada-46e9-8785-4bcdafcd8a59
@@ -19,8 +19,8 @@ At the moment 2 algorithms have been written to simulate the balls falling into 
 
 ## TODO
 
-- [] Write the algorithms ina general form in order to be usable in a c/c++ program.
-- [] Name algorithms
+- [*] Write the algorithms ina general form in order to be usable in a c/c++ program.
+- [*] Name algorithms
 - [] Define a benchmark and use it to rank the algorithms.
 - [] Add encoder functionality.
 - [] Write a main that changes certain parameters of the program as the delay and the visualization or so.
